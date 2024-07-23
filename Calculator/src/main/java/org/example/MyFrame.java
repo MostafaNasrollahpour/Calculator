@@ -13,6 +13,7 @@ public class MyFrame implements ActionListener {
     private JPanel buttonPanel;
     private JButton[][] lineButtons = new JButton[5][4];
     private JLabel label;
+    private boolean isDouble = false;
 
     public MyFrame(){
         ImageIcon icon = new ImageIcon("myFiles/images/icon.png");
@@ -110,9 +111,9 @@ public class MyFrame implements ActionListener {
 
     }
 
-    public void updateResult(char number){
+    public void updateResult(String number){
         if(label.getText().contains("Try")){
-            label.setText(number + "");
+            label.setText(number);
         }else{
             String tmp = label.getText() + number;
             label.setText(tmp);
@@ -121,29 +122,38 @@ public class MyFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        char number = ' ';
+        String number = "";
         if(e.getSource() == lineButtons[1][0]){
-            number = '7';
+            number = "7";
         }else if(e.getSource() == lineButtons[1][1]){
-            number = '8';
+            number = "8";
         }else if(e.getSource() == lineButtons[1][2]){
-            number = '9';
+            number = "9";
         }else if(e.getSource() == lineButtons[2][0]){
-            number = '4';
+            number = "4";
         }else if(e.getSource() == lineButtons[2][1]){
-            number = '5';
+            number = "5";
         }else if(e.getSource() == lineButtons[2][2]){
-            number = '6';
+            number = "6";
         }else if(e.getSource() == lineButtons[3][0]){
-            number = '1';
+            number = "1";
         }else if(e.getSource() == lineButtons[3][1]){
-            number = '2';
+            number = "2";
         }else if(e.getSource() == lineButtons[3][2]){
-            number = '3';
+            number = "3";
+        }
+        else if(e.getSource() == lineButtons[4][0]){
+            if(!isDouble){
+                number = ".";
+                isDouble = true;
+            }else{
+                JOptionPane.showMessageDialog(null,"Wrong Entry!");
+            }
         }
         else if(e.getSource() == lineButtons[4][1]){
-            number = '0';
+            number = "0";
         }
+
         updateResult(number);
     }
 
