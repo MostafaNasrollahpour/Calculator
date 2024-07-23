@@ -19,7 +19,7 @@ public class MyFrame implements ActionListener {
     private char operator = ' ';
     private char mainOpr = ' ';
     private double first = 0.0;
-
+    private double second = 0.0;
 
     public MyFrame() {
         ImageIcon icon = new ImageIcon("myFiles/images/icon.png");
@@ -133,6 +133,7 @@ public class MyFrame implements ActionListener {
         operator = ' ';
         mainOpr = ' ';
         first = 0.0;
+        second = 0.0;
         label.setText(STR);
     }
 
@@ -183,6 +184,38 @@ public class MyFrame implements ActionListener {
             }
         }
         return true;
+    }
+
+    public void excute(){
+        String number = label.getText();
+        number = number.substring(1,number.length());
+        second = Double.parseDouble(number);
+        String text = "";
+        switch (mainOpr){
+            case '+':
+                text = (first + second) + "";
+                break;
+            case '-':
+                text = (first - second) + "";
+                break;
+            case '*':
+                text = (first * second) + "";
+                break;
+            case '/':
+                text = (first / second) + "";
+                break;
+            case '%':
+                text = (first % second) + "";
+                break;
+            default:
+                text = "ERROR";
+        }
+        isDouble = false;
+        operator = ' ';
+        mainOpr = ' ';
+        first = 0.0;
+        second = 0.0;
+        label.setText(text);
     }
 
     @Override
@@ -239,6 +272,12 @@ public class MyFrame implements ActionListener {
         else if (e.getSource() == lineButtons[0][3]) {
             remove();
         }
+
+        else if(e.getSource() == lineButtons[1][3]){
+            if(mainOpr != ' ')
+                excute();
+        }
+
         if(operator != ' ')
             prepareSecondNumber();
         if (!number.isBlank())
