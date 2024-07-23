@@ -143,41 +143,41 @@ public class MyFrame implements ActionListener {
             return;
         if (text.length() > 1) {
             text = text.substring(0, text.length() - 1);
-        }else if(checkOperator(text)){
+        } else if (checkOperator(text)) {
             return;
-        }else {
+        } else {
             clear();
             return;
         }
-        if(!text.contains("."))
+        if (!text.contains("."))
             isDouble = false;
         label.setText(text);
     }
 
-    public void prepareSecondNumber(){
-        if(mainOpr != ' ')
+    public void prepareSecondNumber() {
+        if (mainOpr != ' ')
             return;
         mainOpr = operator;
         operator = ' ';
         String text = label.getText();
-        if(checkNumber(text))
+        if (checkNumber(text))
             first = Double.parseDouble(text);
         label.setText(mainOpr + "");
     }
 
-    public boolean checkOperator(String character){
-        for(int i=0; i<ARRAY.length; i++)
-            if(character.equals(ARRAY[i]))
+    public boolean checkOperator(String character) {
+        for (int i = 0; i < ARRAY.length; i++)
+            if (character.equals(ARRAY[i]))
                 return true;
         return false;
     }
 
-    public boolean checkNumber(String number){
-        for(int i=0; i<number.length(); i++){
-            if(number.charAt(i) >=48 && number.charAt(i)<=57){
+    public boolean checkNumber(String number) {
+        for (int i = 0; i < number.length(); i++) {
+            if (number.charAt(i) >= 48 && number.charAt(i) <= 57) {
                 continue;
-            }else{
-                if(number.charAt(i) == '.')
+            } else {
+                if (number.charAt(i) == '.')
                     continue;
                 else
                     return false;
@@ -186,12 +186,12 @@ public class MyFrame implements ActionListener {
         return true;
     }
 
-    public void excute(){
+    public void excute() {
         String number = label.getText();
-        number = number.substring(1,number.length());
+        number = number.substring(1, number.length());
         second = Double.parseDouble(number);
         String text = "";
-        switch (mainOpr){
+        switch (mainOpr) {
             case '+':
                 text = (first + second) + "";
                 break;
@@ -216,6 +216,22 @@ public class MyFrame implements ActionListener {
         first = 0.0;
         second = 0.0;
         label.setText(text);
+    }
+
+    public void sqrt() {
+        int x = (int) second;
+        if (second == 0) {
+            if (mainOpr != ' ')
+                return;
+            mainOpr = operator;
+            operator = ' ';
+            String text = label.getText();
+            if (checkNumber(text))
+                first = Double.parseDouble(text);
+
+            label.setText(Math.sqrt(first) + "");
+        }
+
     }
 
     @Override
@@ -256,7 +272,7 @@ public class MyFrame implements ActionListener {
         }
         //for operator
         else if (e.getSource() == lineButtons[0][1]) {
-            //i have to delete this block
+            sqrt();
         } else if (e.getSource() == lineButtons[0][2]) {
             operator = '%';
         } else if (e.getSource() == lineButtons[2][3]) {
@@ -271,14 +287,12 @@ public class MyFrame implements ActionListener {
         //for remove
         else if (e.getSource() == lineButtons[0][3]) {
             remove();
-        }
-
-        else if(e.getSource() == lineButtons[1][3]){
-            if(mainOpr != ' ')
+        } else if (e.getSource() == lineButtons[1][3]) {
+            if (mainOpr != ' ')
                 excute();
         }
 
-        if(operator != ' ')
+        if (operator != ' ')
             prepareSecondNumber();
         if (!number.isBlank())
             updateResult(number);
