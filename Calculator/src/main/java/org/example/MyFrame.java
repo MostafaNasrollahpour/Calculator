@@ -110,9 +110,41 @@ public class MyFrame implements ActionListener {
 
     }
 
+    public void updateResult(char number){
+        if(label.getText().contains("Try")){
+            label.setText(number + "");
+        }else{
+            String tmp = label.getText() + number;
+            label.setText(tmp);
+        }
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-
+        char number = ' ';
+        if(e.getSource() == lineButtons[1][0]){
+            number = '7';
+        }else if(e.getSource() == lineButtons[1][1]){
+            number = '8';
+        }else if(e.getSource() == lineButtons[1][2]){
+            number = '9';
+        }else if(e.getSource() == lineButtons[2][0]){
+            number = '4';
+        }else if(e.getSource() == lineButtons[2][1]){
+            number = '5';
+        }else if(e.getSource() == lineButtons[2][2]){
+            number = '6';
+        }else if(e.getSource() == lineButtons[3][0]){
+            number = '1';
+        }else if(e.getSource() == lineButtons[3][1]){
+            number = '2';
+        }else if(e.getSource() == lineButtons[3][2]){
+            number = '3';
+        }
+        else if(e.getSource() == lineButtons[4][1]){
+            number = '0';
+        }
+        updateResult(number);
     }
 
 
