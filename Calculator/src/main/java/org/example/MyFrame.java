@@ -127,6 +127,19 @@ public class MyFrame implements ActionListener {
     public void clear(){
         label.setText(STR);
     }
+
+    public void remove(){
+        String text = label.getText();
+        if(text.contains("Try"))
+            return;
+        if(text.length()>1){
+            text = text.substring(0,text.length()-1);
+        }else{
+            clear();
+            return;
+        }
+        label.setText(text);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         String number = "";
@@ -179,7 +192,11 @@ public class MyFrame implements ActionListener {
         }else if(e.getSource() == lineButtons[4][3]){
             operator = '*';
         }
-        
+        //for remove
+        else if(e.getSource() == lineButtons[0][3]){
+            remove();
+        }
+
         if(!number.isBlank())
             updateResult(number);
     }
