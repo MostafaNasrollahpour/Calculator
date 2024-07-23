@@ -2,14 +2,17 @@ package org.example;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class MyFrame{
+public class MyFrame implements ActionListener {
     private final Color invisible = new Color(0,0,0,0);
 
     private JPanel resultPanel;
     private JFrame frame;
     private JPanel buttonPanel;
     private JButton[][] lineButtons = new JButton[5][4];
+    private JLabel label;
 
     public MyFrame(){
         ImageIcon icon = new ImageIcon("myFiles/images/icon.png");
@@ -22,6 +25,15 @@ public class MyFrame{
 
         resultPanel = new JPanel();
         resultPanel.setBackground(new Color(36, 60, 138));
+        resultPanel.setLayout(new GridLayout());
+
+        label = new JLabel("Try Something");
+        label.setForeground(Color.white);
+        label.setFont(new Font(null, Font.PLAIN, 26));
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setHorizontalAlignment(JLabel.CENTER);
+
+        resultPanel.add(label);
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(61, 71, 162));
@@ -63,6 +75,7 @@ public class MyFrame{
                 lineButtons[i][j].setFocusable(false);
                 lineButtons[i][j].setFont(font);
                 lineButtons[i][j].setForeground(Color.white);
+                lineButtons[i][j].addActionListener(this);
                 buttonPanel.add(lineButtons[i][j]);
             }
         }
@@ -96,6 +109,12 @@ public class MyFrame{
 
 
     }
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+
+    }
+
 
     public static void main(String[] args) {
         new MyFrame();
