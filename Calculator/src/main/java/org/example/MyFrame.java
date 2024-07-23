@@ -6,7 +6,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MyFrame implements ActionListener {
-    private final Color invisible = new Color(0,0,0,0);
+    private final Color INVISIBLE = new Color(0,0,0,0);
+    private final String STR = "Try Something";
 
     private JPanel resultPanel;
     private JFrame frame;
@@ -14,6 +15,7 @@ public class MyFrame implements ActionListener {
     private JButton[][] lineButtons = new JButton[5][4];
     private JLabel label;
     private boolean isDouble = false;
+    private char operator = ' ';
 
     public MyFrame(){
         ImageIcon icon = new ImageIcon("myFiles/images/icon.png");
@@ -28,7 +30,7 @@ public class MyFrame implements ActionListener {
         resultPanel.setBackground(new Color(36, 60, 138));
         resultPanel.setLayout(new GridLayout());
 
-        label = new JLabel("Try Something");
+        label = new JLabel(STR);
         label.setForeground(Color.white);
         label.setFont(new Font(null, Font.PLAIN, 26));
         label.setVerticalAlignment(JLabel.CENTER);
@@ -113,6 +115,8 @@ public class MyFrame implements ActionListener {
 
     public void updateResult(String number){
         if(label.getText().contains("Try")){
+            if(number.equals("."))
+                number = "0.";
             label.setText(number);
         }else{
             String tmp = label.getText() + number;
@@ -120,9 +124,13 @@ public class MyFrame implements ActionListener {
         }
     }
 
+    public void clear(){
+        label.setText(STR);
+    }
     @Override
     public void actionPerformed(ActionEvent e) {
         String number = "";
+        //for numbers
         if(e.getSource() == lineButtons[1][0]){
             number = "7";
         }else if(e.getSource() == lineButtons[1][1]){
@@ -147,14 +155,33 @@ public class MyFrame implements ActionListener {
                 number = ".";
                 isDouble = true;
             }else{
-                JOptionPane.showMessageDialog(null,"Wrong Entry!");
+                JOptionPane.showMessageDialog(null,"Wrong Entry!","Warning!",JOptionPane.WARNING_MESSAGE);
             }
         }
         else if(e.getSource() == lineButtons[4][1]){
             number = "0";
         }
-
-        updateResult(number);
+        // for clear
+        else if(e.getSource() == lineButtons[0][0]){
+            clear();
+        }
+        //for operator
+        else if(e.getSource() == lineButtons[0][1]){
+            operator = 's';
+        }else if(e.getSource() == lineButtons[0][2]){
+            operator = '%';
+        }else if(e.getSource() == lineButtons[2][3]){
+            operator = '-';
+        }else if(e.getSource() == lineButtons[3][3]){
+            operator = '+';
+        }else if(e.getSource() == lineButtons[4][2]){
+            operator = '/';
+        }else if(e.getSource() == lineButtons[4][3]){
+            operator = '*';
+        }
+        
+        if(!number.isBlank())
+            updateResult(number);
     }
 
 
