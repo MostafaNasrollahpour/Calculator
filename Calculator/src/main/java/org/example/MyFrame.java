@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class MyFrame implements ActionListener {
-    private final Color INVISIBLE = new Color(0,0,0,0);
+    private final Color INVISIBLE = new Color(0, 0, 0, 0);
     private final String STR = "Try Something";
 
     private JPanel resultPanel;
@@ -17,11 +17,11 @@ public class MyFrame implements ActionListener {
     private boolean isDouble = false;
     private char operator = ' ';
 
-    public MyFrame(){
+    public MyFrame() {
         ImageIcon icon = new ImageIcon("myFiles/images/icon.png");
 
         frame = new JFrame("Calculator");
-        frame.setBounds(300,100,400,600);
+        frame.setBounds(300, 100, 400, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setIconImage(icon.getImage());
         frame.setLayout(null);
@@ -40,7 +40,7 @@ public class MyFrame implements ActionListener {
 
         buttonPanel = new JPanel();
         buttonPanel.setBackground(new Color(61, 71, 162));
-        buttonPanel.setLayout(new GridLayout(5,4));
+        buttonPanel.setLayout(new GridLayout(5, 4));
         createButtons();
         setTextToButtons();
 
@@ -50,29 +50,29 @@ public class MyFrame implements ActionListener {
         frame.setVisible(true);
     }
 
-    public void normalization(){
+    public void normalization() {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 int frameHeight;
                 int height;
                 int width;
-                while (true){
+                while (true) {
                     width = frame.getWidth();
                     frameHeight = frame.getHeight();
                     height = (int) (frameHeight * 0.2);
-                    resultPanel.setBounds(0,0,width,height);
-                    buttonPanel.setBounds(0,height,width-5,frameHeight-height-38);
+                    resultPanel.setBounds(0, 0, width, height);
+                    buttonPanel.setBounds(0, height, width - 5, frameHeight - height - 38);
                 }
             }
         }).start();
     }
 
-    public void createButtons(){
+    public void createButtons() {
         Color buttonColor = new Color(88, 100, 202);
-        Font font = new Font(null,Font.PLAIN,24);
-        for(int i=0; i<lineButtons.length; i++){
-            for(int j=0; j<lineButtons[i].length; j++){
+        Font font = new Font(null, Font.PLAIN, 24);
+        for (int i = 0; i < lineButtons.length; i++) {
+            for (int j = 0; j < lineButtons[i].length; j++) {
                 lineButtons[i][j] = new JButton();
                 lineButtons[i][j].setBackground(buttonColor);
                 lineButtons[i][j].setFocusable(false);
@@ -84,12 +84,12 @@ public class MyFrame implements ActionListener {
         }
     }
 
-    public void setTextToButtons(){
-        for(int i=1; i<lineButtons.length-1; i++){
+    public void setTextToButtons() {
+        for (int i = 1; i < lineButtons.length - 1; i++) {
             int x;
-            int y = 7 - (i-1) *3;
-            for(int j=0; j<lineButtons[i].length-1; j++){
-                x = y+j;
+            int y = 7 - (i - 1) * 3;
+            for (int j = 0; j < lineButtons[i].length - 1; j++) {
+                x = y + j;
                 lineButtons[i][j].setText(x + "");
             }
         }
@@ -113,91 +113,93 @@ public class MyFrame implements ActionListener {
 
     }
 
-    public void updateResult(String number){
-        if(label.getText().contains("Try")){
-            if(number.equals("."))
+    public void updateResult(String number) {
+        if (label.getText().contains("Try")) {
+            if (number.equals("."))
                 number = "0.";
             label.setText(number);
-        }else{
+        } else {
             String tmp = label.getText() + number;
             label.setText(tmp);
         }
     }
 
-    public void clear(){
+    public void clear() {
+        isDouble = false;
         label.setText(STR);
     }
 
-    public void remove(){
+    public void remove() {
         String text = label.getText();
-        if(text.contains("Try"))
+        if (text.contains("Try"))
             return;
-        if(text.length()>1){
-            text = text.substring(0,text.length()-1);
-        }else{
+        if (text.length() > 1) {
+            text = text.substring(0, text.length() - 1);
+        } else {
             clear();
             return;
         }
+        if(!text.contains("."))
+            isDouble = false;
         label.setText(text);
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         String number = "";
         //for numbers
-        if(e.getSource() == lineButtons[1][0]){
+        if (e.getSource() == lineButtons[1][0]) {
             number = "7";
-        }else if(e.getSource() == lineButtons[1][1]){
+        } else if (e.getSource() == lineButtons[1][1]) {
             number = "8";
-        }else if(e.getSource() == lineButtons[1][2]){
+        } else if (e.getSource() == lineButtons[1][2]) {
             number = "9";
-        }else if(e.getSource() == lineButtons[2][0]){
+        } else if (e.getSource() == lineButtons[2][0]) {
             number = "4";
-        }else if(e.getSource() == lineButtons[2][1]){
+        } else if (e.getSource() == lineButtons[2][1]) {
             number = "5";
-        }else if(e.getSource() == lineButtons[2][2]){
+        } else if (e.getSource() == lineButtons[2][2]) {
             number = "6";
-        }else if(e.getSource() == lineButtons[3][0]){
+        } else if (e.getSource() == lineButtons[3][0]) {
             number = "1";
-        }else if(e.getSource() == lineButtons[3][1]){
+        } else if (e.getSource() == lineButtons[3][1]) {
             number = "2";
-        }else if(e.getSource() == lineButtons[3][2]){
+        } else if (e.getSource() == lineButtons[3][2]) {
             number = "3";
-        }
-        else if(e.getSource() == lineButtons[4][0]){
-            if(!isDouble){
+        } else if (e.getSource() == lineButtons[4][0]) {
+            if (!isDouble) {
                 number = ".";
                 isDouble = true;
-            }else{
-                JOptionPane.showMessageDialog(null,"Wrong Entry!","Warning!",JOptionPane.WARNING_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(null, "Wrong Entry!", "Warning!", JOptionPane.WARNING_MESSAGE);
             }
-        }
-        else if(e.getSource() == lineButtons[4][1]){
+        } else if (e.getSource() == lineButtons[4][1]) {
             number = "0";
         }
         // for clear
-        else if(e.getSource() == lineButtons[0][0]){
+        else if (e.getSource() == lineButtons[0][0]) {
             clear();
         }
         //for operator
-        else if(e.getSource() == lineButtons[0][1]){
+        else if (e.getSource() == lineButtons[0][1]) {
             operator = 's';
-        }else if(e.getSource() == lineButtons[0][2]){
+        } else if (e.getSource() == lineButtons[0][2]) {
             operator = '%';
-        }else if(e.getSource() == lineButtons[2][3]){
+        } else if (e.getSource() == lineButtons[2][3]) {
             operator = '-';
-        }else if(e.getSource() == lineButtons[3][3]){
+        } else if (e.getSource() == lineButtons[3][3]) {
             operator = '+';
-        }else if(e.getSource() == lineButtons[4][2]){
+        } else if (e.getSource() == lineButtons[4][2]) {
             operator = '/';
-        }else if(e.getSource() == lineButtons[4][3]){
+        } else if (e.getSource() == lineButtons[4][3]) {
             operator = '*';
         }
         //for remove
-        else if(e.getSource() == lineButtons[0][3]){
+        else if (e.getSource() == lineButtons[0][3]) {
             remove();
         }
 
-        if(!number.isBlank())
+        if (!number.isBlank())
             updateResult(number);
     }
 
