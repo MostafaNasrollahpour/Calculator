@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 public class MyFrame implements ActionListener {
     private final Color INVISIBLE = new Color(0, 0, 0, 0);
     private final String STR = "Try Something";
+    private final String[] ARRAY = {"+", "-", "*", "/", "%"};
 
     private JPanel resultPanel;
     private JFrame frame;
@@ -16,6 +17,9 @@ public class MyFrame implements ActionListener {
     private JLabel label;
     private boolean isDouble = false;
     private char operator = ' ';
+    private char mainOpr = ' ';
+    private double first = 0.0;
+
 
     public MyFrame() {
         ImageIcon icon = new ImageIcon("myFiles/images/icon.png");
@@ -126,6 +130,9 @@ public class MyFrame implements ActionListener {
 
     public void clear() {
         isDouble = false;
+        operator = ' ';
+        mainOpr = ' ';
+        first = 0.0;
         label.setText(STR);
     }
 
@@ -135,13 +142,47 @@ public class MyFrame implements ActionListener {
             return;
         if (text.length() > 1) {
             text = text.substring(0, text.length() - 1);
-        } else {
+        }else if(checkOperator(text)){
+            return;
+        }else {
             clear();
             return;
         }
         if(!text.contains("."))
             isDouble = false;
         label.setText(text);
+    }
+
+    public void prepareSecondNumber(){
+        if(mainOpr != ' ')
+            return;
+        mainOpr = operator;
+        operator = ' ';
+        String text = label.getText();
+        if(checkNumber(text))
+            first = Double.parseDouble(text);
+        label.setText(mainOpr + "");
+    }
+
+    public boolean checkOperator(String character){
+        for(int i=0; i<ARRAY.length; i++)
+            if(character.equals(ARRAY[i]))
+                return true;
+        return false;
+    }
+
+    public boolean checkNumber(String number){
+        for(int i=0; i<number.length(); i++){
+            if(number.charAt(i) >=48 && number.charAt(i)<=57){
+                continue;
+            }else{
+                if(number.charAt(i) == '.')
+                    continue;
+                else
+                    return false;
+            }
+        }
+        return true;
     }
 
     @Override
@@ -182,7 +223,7 @@ public class MyFrame implements ActionListener {
         }
         //for operator
         else if (e.getSource() == lineButtons[0][1]) {
-            operator = 's';
+            //i have to delete this block
         } else if (e.getSource() == lineButtons[0][2]) {
             operator = '%';
         } else if (e.getSource() == lineButtons[2][3]) {
@@ -198,7 +239,8 @@ public class MyFrame implements ActionListener {
         else if (e.getSource() == lineButtons[0][3]) {
             remove();
         }
-
+        if(operator != ' ')
+            prepareSecondNumber();
         if (!number.isBlank())
             updateResult(number);
     }
